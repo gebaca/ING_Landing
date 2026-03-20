@@ -1,6 +1,12 @@
+import { useRef, useEffect } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
 const PRODUCTS = [
   {
-    image: '/images/hipoteca.jpg',
+    image: '/images/1.png',
     label: 'Hipoteca NARANJA',
     title: 'Elige cuántos años quieres de fijo y de variable.',
     description: 'Más opciones para que estés justo donde quieres estar.',
@@ -8,7 +14,7 @@ const PRODUCTS = [
     href: '/hipotecas',
   },
   {
-    image: '/images/cuenta-naranja.jpg',
+    image: '/images/2.png',
     label: 'Cuenta NARANJA',
     title: 'Tu Cuenta NARANJA ahora con Depósito Bienvenida 3% TAE a 3 meses.',
     description: 'Hazte de ING y gana más por tus ahorros.',
@@ -16,7 +22,7 @@ const PRODUCTS = [
     href: '/ahorro',
   },
   {
-    image: '/images/nocuenta.jpg',
+    image: '/images/3.png',
     label: 'Cuenta NoCuenta',
     title: 'La cuenta que no te pide nada, ni nómina ni ingresos mínimos.',
     description: 'Una cuenta online para que lo hagas todo desde tu móvil.',
@@ -24,7 +30,7 @@ const PRODUCTS = [
     href: '/cuentas',
   },
   {
-    image: '/images/etfs.jpg',
+    image: '/images/4.png',
     label: 'Inversión',
     title: 'Los ETFs enamoran a los españoles.',
     description:
@@ -34,12 +40,86 @@ const PRODUCTS = [
   },
 ];
 
+// Split por palabras — igual que en Hero
+function splitWords(el: HTMLElement): HTMLSpanElement[] {
+  const text = el.innerText;
+  el.innerHTML = '';
+  const words = text.split(/(\s+)/);
+  const spans: HTMLSpanElement[] = [];
+  words.forEach((chunk) => {
+    const span = document.createElement('span');
+    span.textContent = chunk;
+    span.style.display = /\S/.test(chunk) ? 'inline-block' : 'inline';
+    el.appendChild(span);
+    if (/\S/.test(chunk)) spans.push(span);
+  });
+  return spans;
+}
+
 export default function Products() {
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const title = titleRef.current;
+    const grid = gridRef.current;
+    if (!title || !grid) return;
+
+    const titleWords = splitWords(title);
+    const cards = Array.from(grid.children) as HTMLElement[];
+
+    // Estado inicial
+    gsap.set(titleWords, {
+      opacity: 0,
+      rotation: 6,
+      y: 16,
+      transformOrigin: 'left bottom',
+    });
+    gsap.set(cards, { opacity: 0, y: 36 });
+
+    const wordTo = { opacity: 1, rotation: 0, y: 0, ease: 'power4.out' };
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: title,
+        start: 'top 80%',
+        once: true,
+      },
+    });
+
+    // 1. Título palabra a palabra
+    tl.to(titleWords, {
+      ...wordTo,
+      duration: 0.8,
+      stagger: { each: 0.06, ease: 'none' },
+    });
+
+    // 2. Cards — stagger izq→der, las 4 en orden
+    // En desktop el orden visual es: col1-row1, col2-row1, col1-row2, col2-row2
+    // que coincide con el orden del DOM — perfecto para izq→der
+    tl.to(
+      cards,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        stagger: { each: 0.12, ease: 'none' },
+        ease: 'power3.out',
+      },
+      '-=0.3'
+    );
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
   return (
     <section className='bg-white py-16 px-6'>
       <div className='max-w-4xl mx-auto'>
         {/* Título */}
         <h2
+          ref={titleRef}
           className='text-center text-2xl md:text-3xl font-bold mb-10 max-w-2xl mx-auto leading-snug'
           style={{ color: '#3d1400', fontFamily: 'Georgia, serif' }}
         >
@@ -47,7 +127,7 @@ export default function Products() {
         </h2>
 
         {/* Grid 2x2 */}
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <div ref={gridRef} className='grid grid-cols-1 md:grid-cols-2 gap-4'>
           {PRODUCTS.map((product) => (
             <div
               key={product.href}
@@ -66,7 +146,6 @@ export default function Products() {
                   alt={product.label}
                   className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
                 />
-                {/* Label sobre la imagen */}
                 <span className='absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-[#ff6200] text-xs font-medium px-3 py-1 rounded-full'>
                   {product.label}
                 </span>

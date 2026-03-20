@@ -1,15 +1,15 @@
 const APP_FEATURES = [
   {
     text: 'Te avisa de ese recibo que viene de camino (y que igual no tenías controlado).',
-    mockup: '/images/app-recibos.jpg',
+    mockup: '/images/app_1.png',
   },
   {
     text: 'Te chiva dónde tienes dadas de alta tus tarjetas. Así evitamos sustos.',
-    mockup: '/images/app-tarjetas.jpg',
+    mockup: '/images/app_2.png',
   },
   {
     text: 'Si existe una forma de reducir facturas, te la cuenta. ¡Y gratis!',
-    mockup: '/images/app-facturas.jpg',
+    mockup: '/images/app_3.png',
   },
 ];
 
@@ -49,7 +49,7 @@ export default function AppSection() {
               <div
                 className={[
                   'relative mx-auto',
-                  'w-44 rounded-[2rem] overflow-hidden',
+                  'w-44 rounded-4xl overflow-hidden',
                   'border-4 border-[#3d1400]',
                   'shadow-[0_8px_24px_rgba(61,20,0,0.15)]',
                   'transition-transform duration-300 hover:-translate-y-1',
@@ -60,7 +60,7 @@ export default function AppSection() {
                 <img
                   src={feature.mockup}
                   alt={`App feature ${i + 1}`}
-                  className='w-full aspect-[9/19] object-cover'
+                  className='w-full aspect-9/19 object-cover'
                 />
               </div>
             </div>
@@ -70,7 +70,7 @@ export default function AppSection() {
         {/* CTA */}
         <div className='flex justify-center'>
           <a
-            href='https://www.ing.es/app'
+            href=''
             target='_blank'
             rel='noopener noreferrer'
             className={[
@@ -82,7 +82,7 @@ export default function AppSection() {
               'active:scale-95',
             ].join(' ')}
           >
-            Descubre la app →
+            Descubre la app
           </a>
         </div>
       </div>
