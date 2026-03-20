@@ -1,12 +1,9 @@
-import { Button } from '../button/Button';
-
 const ITEMS = [
-  { label: 'Una cuenta', icon: '/icons/account.svg', href: '/cuentas' },
-  { label: 'Una tarjeta', icon: '/icons/card.svg', href: '/tarjetas' },
+  { label: 'Una cuenta', icon: '/icons/cuenta.svg', href: '/cuentas' },
+  { label: 'Una tarjeta', icon: '/icons/tarjeta.svg', href: '/tarjetas' },
   { label: 'Ahorrar', icon: '/icons/savings.svg', href: '/ahorro' },
   { label: 'Invertir', icon: '/icons/investment.svg', href: '/inversion' },
   { label: 'Una hipoteca', icon: '/icons/mortgage.svg', href: '/hipotecas' },
-  { label: 'Un préstamo', icon: '/icons/loan.svg', href: '/prestamos' },
 ];
 
 export default function WhatDoYouNeed() {
@@ -22,7 +19,7 @@ export default function WhatDoYouNeed() {
         </h2>
 
         {/* Grid de items */}
-        <div className='grid grid-cols-3 md:grid-cols-6 gap-4'>
+        <div className='grid grid-cols-3 md:grid-cols-5 gap-4'>
           {ITEMS.map((item) => (
             <a
               key={item.href}
@@ -40,7 +37,7 @@ export default function WhatDoYouNeed() {
               <div
                 className={[
                   'w-12 h-12 rounded-full flex items-center justify-center',
-                  'bg-[#fff3e8]',
+                  'bg-[#3d1400]',
                   'transition-all duration-200',
                   'group-hover:bg-[#ff6200]',
                 ].join(' ')}
@@ -62,17 +59,6 @@ export default function WhatDoYouNeed() {
                 ].join(' ')}
               >
                 {item.label}
-              </span>
-
-              {/* Flecha */}
-              <span
-                className={[
-                  'text-xs text-[#ff6200] opacity-0 -translate-y-1',
-                  'transition-all duration-200',
-                  'group-hover:opacity-100 group-hover:translate-y-0',
-                ].join(' ')}
-              >
-                →
               </span>
             </a>
           ))}
