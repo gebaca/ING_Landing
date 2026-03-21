@@ -6,16 +6,12 @@ import AppSection from './components/AppSection/AppSection';
 import SocialProof from './components/SocialProof/Socialproof';
 import Footer from './components/Footer/Footer';
 import { Logo } from './components/Logo';
-import ScrollLion from './components/Scrolllion ';
 
 function App() {
   return (
-    <div className='min-h-screen bg-white'>
-      <ScrollLion />
+    <div className='min-h-screen bg-white pr-10 pl-10'>
       <Nav />
-      <div className='fixed bottom-6 right-6 z-50 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-xl shadow-sm'>
-        <Logo />
-      </div>
+
       <main>
         <Hero />
         <WhatDoYouNeed />
@@ -25,6 +21,11 @@ function App() {
       </main>
 
       <Footer />
+
+      {/* Firma — fixed esquina inferior derecha, sin contenedor */}
+      <div className='fixed bottom-6 right-6 z-50'>
+        <Logo />
+      </div>
     </div>
   );
 }
