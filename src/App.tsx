@@ -9,7 +9,7 @@ import { Logo } from './components/Logo';
 
 function App() {
   return (
-    <div className='min-h-screen bg-white pr-10 pl-10'>
+    <div className='min-h-screen bg-white'>
       <Nav />
 
       <main>
