@@ -87,7 +87,7 @@ export const Logo = () => {
       href='https://tuweb.com' // ← sustituye por tu URL
       target='_blank'
       rel='noopener noreferrer'
-      ref={container as React.RefObject<HTMLAnchorElement>}
+      ref={container as unknown as React.RefObject<HTMLAnchorElement>}
       className='flex items-baseline cursor-pointer select-none'
       onPointerEnter={handlePointerEnter}
       onPointerLeave={handlePointerLeave}
