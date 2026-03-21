@@ -84,7 +84,7 @@ export const Logo = () => {
 
   return (
     <a
-      href='https://tuweb.com' // ← sustituye por tu URL
+      href='https://gerard-bataller.vercel.app/'
       target='_blank'
       rel='noopener noreferrer'
       ref={container as unknown as React.RefObject<HTMLAnchorElement>}
