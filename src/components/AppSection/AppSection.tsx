@@ -50,13 +50,14 @@ export default function AppSection() {
     const cta = ctaRef.current;
     if (!title || !subtitle || !grid || !cta) return;
 
-    const titleWords = splitWords(title);
+    // El título NO se splitea — se anima como bloque entero
+    // para preservar el <span class="line-through"> interior
     const subtitleWords = splitWords(subtitle);
     const cols = Array.from(grid.children) as HTMLElement[];
 
-    gsap.set(titleWords, {
+    gsap.set(title, {
       opacity: 0,
-      rotation: 6,
+      rotation: 3,
       y: 16,
       transformOrigin: 'left bottom',
     });
@@ -75,11 +76,15 @@ export default function AppSection() {
       scrollTrigger: { trigger: title, start: 'top 80%', once: true },
     });
 
-    tl.to(titleWords, {
-      ...wordTo,
+    // Título entra como bloque
+    tl.to(title, {
+      opacity: 1,
+      rotation: 0,
+      y: 0,
       duration: 0.8,
-      stagger: { each: 0.06, ease: 'none' },
+      ease: 'power4.out',
     })
+      // Subtítulo palabra a palabra
       .to(
         subtitleWords,
         { ...wordTo, duration: 0.7, stagger: { each: 0.08, ease: 'none' } },
@@ -118,7 +123,9 @@ export default function AppSection() {
             style={{ color: '#3d1400', fontFamily: 'Georgia, serif' }}
           >
             Y una app que funciona con{' '}
-            <s className='decoration-2'>inteligencia artificial</s>
+            <span className='line-through decoration-2 decoration-[#ff6200]'>
+              inteligencia artificial
+            </span>
           </h2>
           <span
             ref={subtitleRef}
@@ -129,7 +136,7 @@ export default function AppSection() {
           </span>
         </div>
 
-        {/* 3 columnas — cada una es una card */}
+        {/* 3 columnas */}
         <div
           ref={gridRef}
           className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-10'
@@ -140,7 +147,6 @@ export default function AppSection() {
               className='group flex flex-col items-center rounded-3xl overflow-hidden pt-8 px-6 pb-0 cursor-default'
               style={{ background: '#ece9f0' }}
             >
-              {/* Texto arriba */}
               <p
                 className='text-center mb-6 leading-snug'
                 style={{ color: '#3d1400' }}
@@ -154,8 +160,6 @@ export default function AppSection() {
                 </span>
               </p>
 
-              {/* Imagen — overflow hidden en la card la recorta por abajo */}
-              {/* group-hover escala la imagen suavemente */}
               <div className='w-full flex justify-center overflow-hidden'>
                 <img
                   src={feature.mockup}
@@ -164,6 +168,7 @@ export default function AppSection() {
                     'w-full max-w-50 rounded-t-2xl mt-auto',
                     'shadow-[0_-4px_24px_rgba(0,0,0,0.08)]',
                     'transition-transform duration-500 ease-out',
+                    'group-hover:scale-105 group-hover:-translate-y-1',
                   ].join(' ')}
                 />
               </div>
