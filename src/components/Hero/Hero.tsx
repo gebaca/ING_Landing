@@ -2,13 +2,9 @@ import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { Button } from '../button/Button';
 
-// Altura total de cada columna
 const COL_HEIGHTS = [380, 300, 220, 300, 380];
-// Altura de la tarjeta pequeña en los extremos
 const SMALL_CARD_HEIGHT = 60;
 const GAP = 8;
-
-// ─── Split por palabras ──────────────────────────────────────────────────────
 
 function splitWords(el: HTMLElement): HTMLSpanElement[] {
   const text = el.innerText;
@@ -25,8 +21,6 @@ function splitWords(el: HTMLElement): HTMLSpanElement[] {
   return spans;
 }
 
-// ─── Componente de Imagen de Fondo Reutilizable ──────────────────────────────
-
 function CardBackground({ src }: { src?: string }) {
   if (!src) return null;
   return (
@@ -38,8 +32,6 @@ function CardBackground({ src }: { src?: string }) {
     />
   );
 }
-
-// ─── Tarjetas ─────────────────────────────────────────────────────────────────
 
 function StatCard({ height }: { height: number }) {
   return (
@@ -181,7 +173,7 @@ function DorficCard({ height, bgImage }: { height: number; bgImage?: string }) {
       }}
     >
       <img
-        src={bgImage || '/images/dorfic-hero.jpg'}
+        src={bgImage || '/images/dorfic.png'}
         alt='Fluido DORFic'
         className='w-full h-full object-cover'
       />
@@ -192,7 +184,7 @@ function DorficCard({ height, bgImage }: { height: number; bgImage?: string }) {
 function AppSmallCard({ height }: { height: number }) {
   return (
     <div
-      className='bg-[#fff3e8] border border-[#f0d0b0] rounded-2xl px-5 flex items-center justify-between'
+      className='bg-[#fff3e8] border border-[#f0d0b0] rounded-2xl px-5 flex items-center'
       style={{ height }}
     >
       <span className='text-sm font-medium text-[#3d1400]'>App con IA</span>
@@ -220,7 +212,65 @@ function ExtremeCol({
   );
 }
 
-// ─── Hero ─────────────────────────────────────────────────────────────────────
+// Grid mobile — 2 columnas simétricas con altura fija
+function MobileGrid() {
+  const MOBILE_H = 180;
+  return (
+    <div className='grid grid-cols-2 gap-3 md:hidden'>
+      <div
+        className='bg-[#ff6200] rounded-2xl p-4 flex flex-col justify-between'
+        style={{ height: MOBILE_H }}
+      >
+        <span className='text-white/60 text-xs font-medium tracking-widest uppercase'>
+          Desde 2008
+        </span>
+        <div>
+          <div className='text-white font-bold text-5xl leading-none'>16</div>
+          <div className='text-white/80 text-sm font-medium leading-tight mt-1'>
+            años más recomendado
+          </div>
+        </div>
+      </div>
+      <div
+        className='bg-[#fff3e8] rounded-2xl p-4 flex flex-col justify-between'
+        style={{ height: MOBILE_H }}
+      >
+        <span
+          className='text-xs font-medium tracking-widest uppercase'
+          style={{ color: '#c45200' }}
+        >
+          Cuenta NÓMINA
+        </span>
+        <div className='text-[#3d1400] font-bold text-base leading-snug'>
+          Sin comisiones. Hasta 250€ de bienvenida.
+        </div>
+      </div>
+      <div
+        className='bg-[#fff8f3] border border-[#f0e0d0] rounded-2xl p-4 flex flex-col justify-between'
+        style={{ height: MOBILE_H }}
+      >
+        <span className='text-3xl font-bold text-[#ff6200]'>30.000+</span>
+        <span className='text-sm text-[#7a3a00] leading-tight'>
+          cajeros gratis en España
+        </span>
+      </div>
+      <div
+        className='bg-[#fdf0e6] rounded-2xl p-4 flex flex-col justify-between'
+        style={{ height: MOBILE_H }}
+      >
+        <span
+          className='text-xs font-medium tracking-widest uppercase'
+          style={{ color: '#c45200' }}
+        >
+          Hipoteca NARANJA
+        </span>
+        <div className='text-[#3d1400] font-bold text-base leading-snug'>
+          Elige fijo o variable.
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Hero() {
   const maxHeight = Math.max(...COL_HEIGHTS);
@@ -230,6 +280,7 @@ export default function Hero() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const mobileGridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const eyebrow = eyebrowRef.current;
@@ -238,16 +289,9 @@ export default function Hero() {
     const subtitle = subtitleRef.current;
     const buttons = buttonsRef.current;
     const cards = cardsRef.current;
+    const mobileGrid = mobileGridRef.current;
 
-    if (
-      !eyebrow ||
-      !titleLine1 ||
-      !titleLine2 ||
-      !subtitle ||
-      !buttons ||
-      !cards
-    )
-      return;
+    if (!eyebrow || !titleLine1 || !titleLine2 || !subtitle || !buttons) return;
 
     const eyebrowWords = splitWords(eyebrow);
     const line1Words = splitWords(titleLine1);
@@ -264,8 +308,13 @@ export default function Hero() {
       }
     );
     gsap.set(buttons, { opacity: 0, y: 20 });
-    const cardEls = Array.from(cards.children) as HTMLElement[];
-    gsap.set(cardEls, { opacity: 0, y: 36 });
+
+    const cardEls = cards ? (Array.from(cards.children) as HTMLElement[]) : [];
+    const mobileEls = mobileGrid
+      ? (Array.from(mobileGrid.children) as HTMLElement[])
+      : [];
+    if (cardEls.length) gsap.set(cardEls, { opacity: 0, y: 36 });
+    if (mobileEls.length) gsap.set(mobileEls, { opacity: 0, y: 36 });
 
     const wordTo = { opacity: 1, rotation: 0, y: 0, ease: 'power4.out' };
     const tl = gsap.timeline({ delay: 0.15 });
@@ -294,8 +343,11 @@ export default function Hero() {
         buttons,
         { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' },
         '-=0.5'
-      )
-      .to(
+      );
+
+    // Anima cards desktop o mobile según cuál exista
+    if (cardEls.length) {
+      tl.to(
         cardEls,
         {
           opacity: 1,
@@ -306,6 +358,20 @@ export default function Hero() {
         },
         '<'
       );
+    }
+    if (mobileEls.length) {
+      tl.to(
+        mobileEls,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: { each: 0.1, ease: 'none' },
+          ease: 'power3.out',
+        },
+        '<'
+      );
+    }
 
     return () => {
       tl.kill();
@@ -317,7 +383,8 @@ export default function Hero() {
       className='min-h-screen bg-white pt-14 flex flex-col items-center'
       aria-label='Hero'
     >
-      <div className='flex flex-col items-center text-center px-6 pt-16 pb-10'>
+      {/* Texto centrado */}
+      <div className='flex flex-col items-center text-center px-6 pt-12 md:pt-16 pb-8 md:pb-10'>
         <span
           ref={eyebrowRef}
           className='text-xs font-medium tracking-[0.2em] uppercase mb-4 text-[#c45200]'
@@ -325,7 +392,7 @@ export default function Hero() {
           Banco online · Sin comisiones · Do your thing
         </span>
         <h1
-          className='text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] mb-6 max-w-3xl text-[#3d1400]'
+          className='text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.05] mb-5 md:mb-6 max-w-3xl text-[#3d1400]'
           style={{ fontFamily: 'Georgia, serif' }}
         >
           <span ref={titleLine1Ref} style={{ display: 'block' }}>
@@ -340,7 +407,7 @@ export default function Hero() {
         </h1>
         <p
           ref={subtitleRef}
-          className='text-lg md:text-xl max-w-lg leading-relaxed mb-8 text-[#7a3a00]'
+          className='text-base md:text-lg lg:text-xl max-w-lg leading-relaxed mb-6 md:mb-8 text-[#7a3a00]'
         >
           16 años siendo el banco más recomendado de España. Sin comisiones. Sin
           letra pequeña.
@@ -358,7 +425,13 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className='w-full px-4 pb-12'>
+      {/* Grid mobile — 2x2 simplificado */}
+      <div ref={mobileGridRef} className='w-full px-4 pb-10 md:hidden'>
+        <MobileGrid />
+      </div>
+
+      {/* Grid desktop — 5 columnas asimétricas */}
+      <div className='hidden md:block w-full px-4 pb-12'>
         <div
           ref={cardsRef}
           className='grid gap-3 mx-auto'
@@ -372,10 +445,7 @@ export default function Hero() {
           <ExtremeCol
             totalHeight={COL_HEIGHTS[0]}
             bigCard={
-              <StatCard
-                height={COL_HEIGHTS[0] - SMALL_CARD_HEIGHT - GAP}
-                bgImage='https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2070'
-              />
+              <StatCard height={COL_HEIGHTS[0] - SMALL_CARD_HEIGHT - GAP} />
             }
             smallCard={<TaglineSmallCard height={SMALL_CARD_HEIGHT} />}
           />
