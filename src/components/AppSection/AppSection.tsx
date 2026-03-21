@@ -118,9 +118,7 @@ export default function AppSection() {
             style={{ color: '#3d1400', fontFamily: 'Georgia, serif' }}
           >
             Y una app que funciona con{' '}
-            <span className='line-through decoration-2'>
-              inteligencia artificial
-            </span>
+            <s className='decoration-2'>inteligencia artificial</s>
           </h2>
           <span
             ref={subtitleRef}
