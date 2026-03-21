@@ -94,9 +94,9 @@ export default function Products() {
       stagger: { each: 0.06, ease: 'none' },
     });
 
-    // 2. Cards — stagger izq→der, las 4 en orden
+    // 2. Cards — stagger izq->der, las 4 en orden
     // En desktop el orden visual es: col1-row1, col2-row1, col1-row2, col2-row2
-    // que coincide con el orden del DOM — perfecto para izq→der
+    // que coincide con el orden del DOM — perfecto para izq->der
     tl.to(
       cards,
       {
@@ -178,9 +178,6 @@ export default function Products() {
                     ].join(' ')}
                   >
                     {product.cta}
-                    <span className='transition-transform duration-200 group-hover:translate-x-0.5'>
-                      →
-                    </span>
                   </a>
                 </div>
               </div>

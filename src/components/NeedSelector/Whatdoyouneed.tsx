@@ -67,7 +67,7 @@ export default function WhatDoYouNeed() {
       stagger: { each: 0.08, ease: 'none' },
     });
 
-    // 2. Items — stagger izq→der, simultáneo mientras termina el título
+    // 2. Items — stagger izq->der, simultáneo mientras termina el título
     tl.to(
       items,
       {

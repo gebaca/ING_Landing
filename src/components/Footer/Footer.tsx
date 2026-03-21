@@ -107,7 +107,7 @@ export default function Footer() {
               'active:scale-95',
             ].join(' ')}
           >
-            Hazte cliente →
+            Hazte cliente
           </a>
         </div>
 
@@ -143,10 +143,10 @@ export default function Footer() {
             Rediseño con fines de portfolio · No afiliado a ING
           </span>
           <div className='flex gap-4'>
-            {['LinkedIn', 'GitHub'].map((social) => (
+            {['LinkedIn'].map((social) => (
               <a
                 key={social}
-                href='#'
+                href='https://www.linkedin.com/in/gerard-bataller-canet-963394372/'
                 className='text-white/50 text-xs hover:text-white transition-colors duration-150'
               >
                 {social}

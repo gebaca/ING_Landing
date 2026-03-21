@@ -257,7 +257,6 @@ export default function Nav() {
                   aria-current={activePath === link.href ? 'page' : undefined}
                 >
                   {link.label}
-                  <span className='text-[#ff6200] text-sm'>→</span>
                 </a>
               </li>
             ))}

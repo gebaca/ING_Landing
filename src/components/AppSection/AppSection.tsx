@@ -191,7 +191,7 @@ export default function AppSection() {
               'active:scale-95',
             ].join(' ')}
           >
-            Descubre la app →
+            Descubre la app
           </a>
         </div>
       </div>

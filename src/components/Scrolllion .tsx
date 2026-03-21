@@ -25,7 +25,7 @@ export default function ScrollLion() {
       strokeDashoffset: total,
     });
 
-    // Animar strokeDashoffset de total → 0 conforme scrolleas la página
+    // Animar strokeDashoffset de total -> 0 conforme scrolleas la página
     const st = ScrollTrigger.create({
       trigger: document.documentElement,
       start: 'top top',
